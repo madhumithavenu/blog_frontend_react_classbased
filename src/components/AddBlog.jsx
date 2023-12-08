@@ -17,6 +17,15 @@ export class AddBlogs extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  handleChange(e) {
+    this.setState((prevState) => ({
+      inputs: {
+        ...prevState.inputs,
+        [e.target.name]: e.target.value,
+      }
+    }))
+  }
+ 
   render() {
 
     return (
