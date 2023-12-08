@@ -25,7 +25,28 @@ export class AddBlogs extends Component {
       }
     }))
   }
- 
+  async sendRequest() {
+    const res = await axios.post(`http://localhost:5000/api/blog/add`, {
+      title: this.state.inputs.title,
+      description: this.state.inputs.description,
+      image: this.state.inputs.image,
+      user: localStorage.getItem("userID")
+    }).catch(err => {
+      if (err.response.request.status === 404) {
+        alert("User does not exist");
+        this.setState(false);
+      } else if (err.response.request.status === 400) {
+        alert("Invalid password");
+        this.setState(false);
+      }
+    })
+
+    let data = null;
+    if (res) {
+      data = await res.data;
+    }
+    return data;
+  }
   render() {
 
     return (
