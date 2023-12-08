@@ -47,6 +47,18 @@ export class AddBlogs extends Component {
     }
     return data;
   }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.sendRequest()
+      .then(data => console.log(data))
+      .then(() => {
+        window.location.replace("/myBlogs")
+      })
+
+    console.log(this.state.inputs);
+
+  }
   render() {
 
     return (
