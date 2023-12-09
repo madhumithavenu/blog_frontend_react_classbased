@@ -24,6 +24,13 @@ export class UserBlogs extends Component {
     return data;
   }
 
+  async componentDidMount() {
+    const id = localStorage.getItem("userID");
+    // console.log(id);
+    this.sendRequest(id).then(data => this.setState(data));
+    // console.log(this.state.user);
+  }
+
   render() {
 
     return (
