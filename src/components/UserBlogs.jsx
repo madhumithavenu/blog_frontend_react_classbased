@@ -11,7 +11,20 @@ export class UserBlogs extends Component {
 
     this.sendRequest = this.sendRequest.bind(this);
   }
-render() {
+
+  async sendRequest(id) {
+    const res = await axios.get(`http://localhost:5000/api/blog/user/${id}`)
+      // .then(data => console.log(data))
+      .catch(err => console.log(err))
+
+    let data = null;
+    if (res) {
+      data = await res.data;
+    }
+    return data;
+  }
+
+  render() {
 
     return (
       <>
