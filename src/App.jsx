@@ -34,7 +34,11 @@ export class App extends Component {
           <Route path='/auth/signup' element={<Signup setLoggedIn={this.setLoggedIn} />} />
 
           <Route path='/' element={<Home />} />
-            </Routes>
+          <Route path='/blog/:id' element={<Blog />} />
+          <Route path='/blog/add' element={<AddBlogs isLoggedIn={this.state.isLoggedIn} />} />
+          <Route path='/myBlogs' element={<UserBlogs />} />
+          <Route path='/editBlog/:id' element={<BlogDetail />} />
+        </Routes>
         <Footer />
 
       </>
