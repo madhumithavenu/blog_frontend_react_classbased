@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
-import Footer from './components/Footer'
-import Navbar from './components/Navbar'
-import Home from './components/Home'
 import { Route, Routes } from 'react-router-dom'
-import Login from './components/Login'
-import Logout from './components/Logout'
-import Signup from './components/Signup'
-import AddBlogs from './components/AddBlogs'
-import UserBlogs from './components/UserBlogs'
-import BlogDetail from './components/BlogDetail'
-import Blog from './components/Blog'
+import Navbar from './components/Navbar';
+import Login from './components/Login';
+import Logout from './components/Logout';
+import Signup from './components/Signup';
+import Blog from './components/Blog';
+import Home from './components/Home';
+import AddBlogs from './components/AddBlogs';
+import UserBlogs from './components/UserBlogs';
+import BlogDetail from './components/BlogDetail';
+import Footer from './components/Footer';
+
 
 export class App extends Component {
   constructor(props) {

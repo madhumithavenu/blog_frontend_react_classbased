@@ -11,6 +11,7 @@ export class BlogDetail extends Component {
         image: ""
       }
     }
+    
     this.sendRequest = this.sendRequest.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
