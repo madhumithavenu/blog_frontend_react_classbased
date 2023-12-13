@@ -11,7 +11,6 @@ export class BlogDetail extends Component {
         image: ""
       }
     }
-    
     this.sendRequest = this.sendRequest.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -19,12 +18,25 @@ export class BlogDetail extends Component {
   }
 
   handleChange(e) {
-    this.setState((prevState) => ({
-      inputs: {
-        ...prevState.inputs,
-        [e.target.name]: e.target.value,
+    this.setState(prevState => {
+
+      if (!e.target.files || Object.keys(e.target.files).length === 0) {
+        return ({
+          inputs: {
+            ...prevState.inputs,
+            [e.target.name]: e.target.value,
+          }
+        })
       }
-    }))
+
+      return ({
+        inputs: {
+          ...prevState.inputs,
+          [e.target.name]: e.target.value,
+          image: e.target.files[0]
+        }
+      });
+    });
   }
 
   async fetchDetails(id) {
@@ -54,11 +66,12 @@ export class BlogDetail extends Component {
   }
 
   async sendRequest(id) {
-    const res = await axios.put(`http://localhost:5000/api/blog/update/${id}`, {
-      title: this.state.inputs.title,
-      description: this.state.inputs.description,
-      image: this.state.inputs.image
-    })
+    const formData = new FormData();
+    formData.append('title', this.state.inputs.title);
+    formData.append('description', this.state.inputs.description);
+    formData.append('image', this.state.inputs.image, this.state.inputs.image.name);
+
+    const res = await axios.put(`http://localhost:5000/api/blog/update/${id}`,formData)
       .catch(err => console.log(err))
 
     let data = null;
@@ -87,7 +100,7 @@ export class BlogDetail extends Component {
   render() {
     return (
       <>
-        <header className="masthead" style={{ "backgroundImage": "url(" + this.state.inputs.image + ")" }}>
+        <header className="masthead" style={{ "backgroundImage": "url('http://localhost:5000" + this.state.inputs.image + "')" }}>
           <div className="container position-relative px-4 px-lg-5">
             <div className="row gx-4 gx-lg-5 justify-content-center">
               <div className="col-md-10 col-lg-8 col-xl-7">
@@ -117,10 +130,10 @@ export class BlogDetail extends Component {
                     <label htmlFor="description">Description</label>
                   </div>
                   <div className="form-floating">
-                    <textarea className="form-control" id="image" name="image"
-                      placeholder="Add Image..." value={this.state.inputs.image} onChange={this.handleChange}></textarea>
-                    <label htmlFor="image">Image</label>
-                  </div> <br />
+                  <input className="form-control" id="image" name="image" type="file"
+                    placeholder="Upload an Image" onChange={this.handleChange}></input>
+                  <label htmlFor="image">Image</label>
+                </div><br />
 
                   {/* Submit Button*/}
                   <div style={{ textAlign: 'center' }}>

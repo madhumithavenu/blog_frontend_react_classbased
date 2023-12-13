@@ -53,15 +53,14 @@ class Blog extends Component {
 
     return (
       <> {(this.state.blog === null) ? <h1>Loading</h1> :
-        (<div><header className="masthead" style={{ 'backgroundImage': "url(" + this.state.blog.image + " )" }}>
+        (<div><header className="masthead" style={{ 'backgroundImage': "url('http://localhost:5000" + this.state.blog.image + "')" }}>
           <div className="container position-relative px-4 px-lg-5">
             <div className="row gx-4 gx-lg-5 justify-content-center">
               <div className="col-md-10 col-lg-8 col-xl-7">
                 <div className="post-heading">
                   <h1>{this.state.blog.title}</h1>
                   <span className="meta">
-                    Posted by {this.state.blog.user.name}
-                    on xxxxxxxx
+                    Posted by  {this.state.blog.user.name}
                   </span>
                 </div>
               </div>

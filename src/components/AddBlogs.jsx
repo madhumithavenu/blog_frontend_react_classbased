@@ -3,14 +3,14 @@ import axios from 'axios';
 import React, { Component } from 'react'
 // import { Link } from 'react-router-dom'
 
-export class AddBlogs extends Component {
+export class AddBlog extends Component {
   constructor(props) {
     super(props);
     this.state = {
       inputs: {
         title: '',
         description: '',
-        image: '',
+        image: ''
       }
     }
     this.handleChange = this.handleChange.bind(this);
@@ -18,28 +18,35 @@ export class AddBlogs extends Component {
   }
 
   handleChange(e) {
-    this.setState((prevState) => ({
-      inputs: {
-        ...prevState.inputs,
-        [e.target.name]: e.target.value,
+    this.setState(prevState => {
+
+      if (!e.target.files || Object.keys(e.target.files).length === 0) {
+        return ({
+          inputs: {
+            ...prevState.inputs,
+            [e.target.name]: e.target.value,
+          }
+        })
       }
-    }))
+
+      return ({
+        inputs: {
+          ...prevState.inputs,
+          [e.target.name]: e.target.value,
+          image: e.target.files[0]
+        }
+      });
+    });
   }
   async sendRequest() {
-    const res = await axios.post(`http://localhost:5000/api/blog/add`, {
-      title: this.state.inputs.title,
-      description: this.state.inputs.description,
-      image: this.state.inputs.image,
-      user: localStorage.getItem("userID")
-    }).catch(err => {
-      if (err.response.request.status === 404) {
-        alert("User does not exist");
-        this.setState(false);
-      } else if (err.response.request.status === 400) {
-        alert("Invalid password");
-        this.setState(false);
-      }
-    })
+    const formData = new FormData();
+    formData.append('title', this.state.inputs.title);
+    formData.append('description', this.state.inputs.description);
+    formData.append('userID', localStorage.getItem("userID"));
+    formData.append('image', this.state.inputs.image, this.state.inputs.image.name);
+
+    const res = await axios.post(`http://localhost:5000/api/blog/add`, formData)
+      .catch(err => console.log(err));
 
     let data = null;
     if (res) {
@@ -51,28 +58,26 @@ export class AddBlogs extends Component {
   handleSubmit(e) {
     e.preventDefault();
     this.sendRequest()
-      .then(data => console.log(data))
-      .then(() => {
+      .then(data => {
         window.location.replace("/myBlogs")
       })
-
-    console.log(this.state.inputs);
 
   }
   render() {
 
     return (
       <>
-        <header className="masthead" style={{ "backgroundImage": "url('assets/img/post-sample-image.jpg')" }}>          <div className="container position-relative px-4 px-lg-5">
-          <div className="row gx-4 gx-lg-5 justify-content-center">
-            <div className="col-md-10 col-lg-8 col-xl-7">
-              <div className="page-heading">
-                <h1>Add Blog</h1>
-                <span className="subheading">Add Your New Blogs</span>
+        <header className="masthead" style={{ "backgroundImage": "url('xxxxx')" }}>
+          <div className="container position-relative px-4 px-lg-5">
+            <div className="row gx-4 gx-lg-5 justify-content-center">
+              <div className="col-md-10 col-lg-8 col-xl-7">
+                <div className="page-heading">
+                  <h1>{this.state.inputs.title}</h1>
+                  <span className="subheading">{this.state.inputs.description}</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
         </header>
 
         <div className="container px-4 px-lg-5">
@@ -92,8 +97,8 @@ export class AddBlogs extends Component {
                 </div>
 
                 <div className="form-floating">
-                  <textarea className="form-control" id="image" name="image"
-                    placeholder="Add Image" onChange={this.handleChange}></textarea>
+                  <input className="form-control" id="image" name="image" type="file"
+                    placeholder="Upload an Image" onChange={this.handleChange}></input>
                   <label htmlFor="image">Image</label>
                 </div><br />
 
@@ -111,4 +116,4 @@ export class AddBlogs extends Component {
   }
 }
 
-export default AddBlogs
+export default AddBlog
