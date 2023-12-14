@@ -120,18 +120,18 @@ export class BlogDetail extends Component {
                 <form action="/blogs" method="POST" onSubmit={this.handleSubmit} >
                   <div className="form-floating">
                     <input className="form-control" id="title" name="title" type="text"
-                      placeholder="Enter the title..." value={this.state.inputs.title} onChange={this.handleChange} />
+                      placeholder="Enter the title..." value={this.state.inputs.title} onChange={this.handleChange} required/>
                     <label htmlFor="title">Title</label>
                   </div>
 
                   <div className="form-floating">
                     <textarea className="form-control" id="description" name="description"
-                      placeholder="Enter your description here..." value={this.state.inputs.description} onChange={this.handleChange}></textarea>
+                      placeholder="Enter your description here..." value={this.state.inputs.description} onChange={this.handleChange} required></textarea>
                     <label htmlFor="description">Description</label>
                   </div>
                   <div className="form-floating">
                   <input className="form-control" id="image" name="image" type="file"
-                    placeholder="Upload an Image" onChange={this.handleChange}></input>
+                    placeholder="Upload an Image" onChange={this.handleChange} required></input>
                   <label htmlFor="image">Image</label>
                 </div><br />
 
